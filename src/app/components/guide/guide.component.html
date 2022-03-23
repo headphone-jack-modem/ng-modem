@@ -1,0 +1,99 @@
+<mat-toolbar class="mat-elevation-z4" color="primary" style="position: sticky; top: 0; z-index: 1;">
+  <a routerLink="/home" mat-icon-button aria-label="Back to home">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span>Guide</span>
+  <span class="spacer" style="flex: 1 1 auto;"></span>
+  <a routerLink="/setting" mat-icon-button aria-label="Settings">
+    <mat-icon>settings</mat-icon>
+  </a>
+  <a routerLink="/guide" mat-icon-button aria-label="Help">
+    <mat-icon>help</mat-icon>
+  </a>
+  <a routerLink="/about-me" mat-icon-button aria-label="About Me">
+    <mat-icon>account_circle</mat-icon>
+  </a>
+</mat-toolbar>
+<div fxLayout="column" style="max-width: 720px; margin: 0 auto;">
+  <mat-card fxLayout="column" style="margin: 10px">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>layers</mat-icon>
+      <mat-card-title>Overview</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="/assets/overview.png" alt="overview">
+    <mat-card-content>
+      <h3>
+        Communicate between microcontroller and mobile via headphone jack.
+      </h3>
+      <p>
+        There is one library for microcontrollers,
+        specialized for ATmega16 written with C,
+        <a href="https://github.com/micro-modem/atmega16-modem" target="_blank" style="color: cornflowerblue">here</a>;
+        and another library for smart devices (such as laptop, Android, or iPhone mobiles)
+        that runs on the browser platforms (such as firefox),
+        <a href="https://github.com/micro-modem/ng-modem" target="_blank" style="color: cornflowerblue">here</a>.
+      </p>
+      <p>
+        Using these two libraries and simple hardware,
+        you can connect a microcontroller to a smart device via the headphone jack
+        and then communicate between them.
+      </p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card fxLayout="column" style="margin: 10px">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>schema</mat-icon>
+      <mat-card-title>Schema</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Build hardware from the following schematic:
+      </p>
+    </mat-card-content>
+    <img mat-card-image src="/assets/schema.png" alt="Schema">
+    <mat-card-content>
+      <p>
+        The implemented circuit on a project board due to the above schematic.
+        Connect the microcontroller to the phone or laptop via the headphone jack.
+      </p>
+    </mat-card-content>
+    <img mat-card-image src="/assets/micro-overview.png" alt="An overview of the micro">
+    <mat-card-content>
+      <p>
+        For testing, we create a
+        <a href="https://github.com/micro-modem/atmega16-modem-test" target="_blank" style="color: cornflowerblue">demo
+          app</a>
+        that only echoes the received message.
+        you can deploy this app on your microcontroller and then on the home page, send a message to it.
+      </p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card fxLayout="column" style="margin: 10px">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>tips_and_updates</mat-icon>
+      <mat-card-title>How It Works</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        It works based on th BFSK modulation.
+        At the time of transmission, the bits of each byte is converted to high or low frequencies.
+        At the beginning of each byte, a lower bit is added to display the beginning of the byte,
+        and at the end of the byte, three more bits are added, including the following:
+      </p>
+      <ul>
+        <li>Control bit: Indicates that the byte is metadata or data.</li>
+        <li>Preity bit:</li>
+        <li>Stop bit: It's a high bit to indicates the end of the byte</li>
+      </ul>
+      <p>
+        And each message transfer contains one byte of metadata that holds the number of bytes of the message.
+      </p>
+      <p>
+        For example, to send a message containing &quot;OK&quot; (ie <code>01001111 01001011</code> in binary),
+        we add a metadata byte that holds the size of the transmitted message (ie <code>00000010</code> in binary).
+        Then we add the start, control, parity, and stop bits to each of these bytes.
+      </p>
+      <img mat-card-image src="/assets/OK-bits.png" alt="Display OK bits">
+    </mat-card-content>
+  </mat-card>
+</div>

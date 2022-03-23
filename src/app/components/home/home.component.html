@@ -1,0 +1,61 @@
+<!--TODO: ollwyse on top-->
+<mat-toolbar class="mat-elevation-z4" color="primary" style="position: sticky; top: 0; z-index: 1;">
+  <a routerLink="/home" mat-icon-button aria-label="home">
+    <mat-icon>graphic_eq</mat-icon>
+  </a>
+  <span>Micro Modem</span>
+  <span class="spacer" style="flex: 1 1 auto;"></span>
+  <a routerLink="/setting" mat-icon-button aria-label="Settings">
+    <mat-icon>settings</mat-icon>
+  </a>
+  <a routerLink="/guide" mat-icon-button aria-label="Help">
+    <mat-icon>help</mat-icon>
+  </a>
+  <a routerLink="/about-me" mat-icon-button aria-label="About Me">
+    <mat-icon>account_circle</mat-icon>
+  </a>
+</mat-toolbar>
+
+<div fxLayout="column" style="max-width: 720px; margin: 0 auto;">
+  <mat-card fxLayout="column" style="margin: 10px">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>launch</mat-icon>
+      <mat-card-title>Output Box</mat-card-title>
+    </mat-card-header>
+    <mat-form-field class="example-form-field">
+      <mat-label>Message</mat-label>
+      <input #txBox matInput type="text" [value]="txMessage$ | async" (keydown.enter)="sendMessage(txBox.value)" (change)="onChangeTxMessage(txBox.value)">
+      <button mat-button *ngIf="txBox.value" matSuffix mat-icon-button aria-label="Clear" (click)="onChangeTxMessage('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-card-actions align="end">
+      <button mat-icon-button (click)="sendMessage(txBox.value)">
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card fxLayout="column" style="margin: 10px">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>input</mat-icon>
+      <mat-card-title>Input Box</mat-card-title>
+    </mat-card-header>
+    <mat-form-field>
+      <textarea #rxBox matInput readonly rows="7" [value]="rxMessages$ | async" style="line-height: 25px"></textarea>
+      <button mat-button *ngIf="rxBox.value" matSuffix mat-icon-button aria-label="Clear" (click)="clrReceivedMessages()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-card-actions align="end">
+      <button mat-icon-button *ngIf="this.modemService.listen; else micOff"
+              (click)="this.modemService.listen = false">
+        <mat-icon>mic</mat-icon>
+      </button>
+      <ng-template #micOff>
+        <button mat-icon-button (click)="this.modemService.listen = true">
+          <mat-icon>mic_off</mat-icon>
+        </button>
+      </ng-template>
+    </mat-card-actions>
+  </mat-card>
+</div>
